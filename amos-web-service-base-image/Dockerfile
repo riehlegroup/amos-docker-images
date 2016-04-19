@@ -1,4 +1,4 @@
-#REPO: mojo-docker.cs.fau.de/osrg/amos-build-image:1.0
+#REPO: hannesd/amos-web-service-base-image:1.0
 #PUSH!
 #!/bin/bash
 #
