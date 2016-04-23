@@ -18,9 +18,16 @@
 set -ue
 
 # Inject strings from environment into template
-sed -i "s|%HTML_INDEX_TITLE%|$HTML_INDEX_TITLE|g" /var/www/html/index.html
-sed -i "s|%HTML_INDEX_TEAM%|$HTML_INDEX_TEAM|g" /var/www/html/index.html
-sed -i "s|%HTML_INDEX_FILE%|$HTML_INDEX_FILE|g" /var/www/html/index.html
+sed -i "s|%HTML_INDEX_TITLE%|${HTML_INDEX_TITLE:-[TITLE]}|g" /var/www/html/index.html
+sed -i "s|%HTML_INDEX_TEAM%|${HTML_INDEX_TEAM:-[TEAM]}|g" /var/www/html/index.html
+sed -i "s|%HTML_INDEX_FILE%|${HTML_INDEX_FILE}|g" /var/www/html/index.html
 
 # Fix context path
-sed -i "s|location / {|location $CONTEXT_PATH {|" /etc/nginx/conf.d/default.conf
+if [[ -n ${CONTEXT_PATH:-} ]] && [[ "$CONTEXT_PATH" != "/" ]]; then
+  mv /var/www/{html,html.tmp}
+  mkdir -p "/var/www/html/$( dirname "$CONTEXT_PATH" )"
+  mv /var/www/html.tmp "/var/www/html/$CONTEXT_PATH"
+fi
+
+# Create log directory
+mkdir -p /var/log/nginx
