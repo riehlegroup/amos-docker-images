@@ -17,29 +17,9 @@
 # limitations under the License.
 #
 
-FROM phusion/baseimage:0.9.18
-
-# -------------------------------------- Configure basics
-
-ENV LANG        en_US.UTF-8
-ENV LANGUAGE    en_US.UTF-8
-ENV LC_ALL      en_US.UTF-8
-
-ENV HOME        /root
+FROM osrgroup/amos-service-base-image:1.0
 
 # -------------------------------------- Install packages
-
-ADD assets/scrub_image /usr/local/bin/scrub_image
-RUN chmod +x /usr/local/bin/scrub_image
-
-# Upgrade system
-RUN apt-get -y update \
-  && apt-get -y upgrade \
-  && scrub_image
-
-# Remove rsyslog, phusion uses syslog-ng
-RUN apt-get -y purge rsyslog \
-  && scrub_image
 
 # Install nginx and patch
 COPY assets /assets
