@@ -1,4 +1,4 @@
-#REPO: hannesd/amos-downloader-image:1.0
+#REPO: osrgroup/amos-downloader-base-image:1.0
 #PUSH!
 #
 # Copyright 2016 The Open Source Research Group,

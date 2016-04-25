@@ -1,6 +1,5 @@
-#REPO: hannesd/amos-web-service-base-image:1.0
+#REPO: osrgroup/amos-web-service-base-image:1.0
 #PUSH!
-#!/bin/bash
 #
 # Copyright 2016 The Open Source Research Group,
 #                University of Erlangen-Nürnberg
@@ -64,5 +63,13 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - \
   && apt-get -y install nodejs build-essential \
   && scrub_image
+
+# -------------------------------------- Install authbind
+
+RUN apt-get update -y \
+  && apt-get install -y authbind \
+  && scrub_image \
+  && touch /etc/authbind/byport/80 \
+  && chmod 777 /etc/authbind/byport/80
 
 # -------------------------------------- Done
